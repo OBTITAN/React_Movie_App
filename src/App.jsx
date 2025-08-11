@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,6 +6,10 @@ import './App.css'
 
 const Card = ({title}) => {
   const [hasLiked, setHasLiked] = useState(false);
+
+  useEffect(()=>{
+    console.log(`${title} has been ${hasLiked}`)
+  })
 
   return(
     <div className ="card">
