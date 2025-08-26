@@ -36,7 +36,7 @@
   }
 
   main {
-    @apply min-h-screen relative bg-primary;
+    @apply min-h-screen w-full relative bg-primary;
   }
 
   header {
@@ -50,11 +50,11 @@
 
 @layer components {
   .pattern {
-    @apply bg-hero-pattern w-full h-screen bg-center bg-cover absolute z-0;
+     @apply bg-hero-pattern w-full min-h-screen bg-center bg-cover bg-no-repeat fixed top-0 left-0 z-0;
   }
 
   .wrapper {
-    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
+    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10 min-h-screen;
   }
 
   .trending {
