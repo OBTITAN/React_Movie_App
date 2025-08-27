@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Search from './components/Search.jsx'
 import Spinner from './components/Spinner.jsx';
+import MovieCard from './components/MovieCard.jsx';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -63,13 +64,13 @@ const App = () => {
             <div className = "wrapper"> 
                 <header>
                     <img src="./Hero-img.png" alt="Hero Banner"/>
-                    <h1><span className="text-gradient">Movies </span>You'll Enjoy Without the Hassle</h1>
+                    <h1>Find <span className="text-gradient">Movies </span>You'll Enjoy Without the Hassle</h1>
 
                     <Search searchTerm = {searchTerm} setSearchTerm = {setSearchTerm}/>
                 </header>
 
                <section className = "all-movies">
-                <h2>All Movies</h2>
+                <h2 className="mt-[40px]">All Movies</h2>
 
                 {isLoading? (
                     <Spinner />
@@ -78,7 +79,7 @@ const App = () => {
                 ) : (
                     <ul>
                         {movieList.map((movie) => (
-                            <p key = {movie.id} className = "text-white">{movie.title}</p>
+                            <MovieCard key={movie.id} movie={movie}/>
                         ))}
                     </ul>
                 )}           
