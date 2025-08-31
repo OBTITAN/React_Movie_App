@@ -22,9 +22,11 @@ const API_OPTIONS = {
 const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [trendingErrorMessage, setTrendingErrorMessage] = useState('')
     const [movieList, setMovieList] = useState([]);
     const [trendingMovies, setTrendingMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [loadingTrending, setLoadingTrending] = useState(false);
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
     useDebounce(() => setDebouncedSearchTerm(searchTerm), 1500, [searchTerm]);
@@ -67,11 +69,15 @@ const App = () => {
 
     const loadTrendingMovies = async () => {
         try{
+            setLoadingTrending(true);
             const movies = await getTrendingMovies();
             setTrendingMovies(movies);
 
         } catch (error){
             console.error('Error loading trending movies:', error);
+            setTrendingErrorMessage(`Error in loading trending movies`);
+        } finally {
+            setLoadingTrending(false);
         }
     }
     
@@ -96,23 +102,28 @@ const App = () => {
                     <Search searchTerm = {searchTerm} setSearchTerm = {setSearchTerm}/>
                 </header>
 
-                {trendingMovies.length > 0 && (
-                    <section className='trending'>
-                        <h2>Trending Movies</h2>
+                {loadingTrending
+                    ?<span className="mt-6"><Spinner /></span>
+                    : trendingErrorMessage
+                        ? <p className = 'text-red-500 mt-6'>{trendingErrorMessage}</p>
+                        : trendingMovies.length > 0 && (
+                            <section className='trending'>
 
-                        <ul>
-                            {trendingMovies.map((movie, index) => (
-                                <li key = {movie.$id}>
-                                    <p>{index + 1}</p>
-                                    <img src = {movie.poster_url} alt={movie.title} />
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
+                                <h2 className="mt-1">Trending Movies</h2>
+                                <ul>
+                                    {trendingMovies.map((movie, index) => (
+                                        <li key = {movie.$id}>
+                                            <p>{index + 1}</p>
+                                            <img src = {movie.poster_url} alt={movie.title} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </section>
+                        
                 )}
 
                <section className = "all-movies">
-                <h2>All Movies</h2>
+                <h2 className="mt-8">All Movies</h2>
 
                 {isLoading? (
                     <Spinner/>
